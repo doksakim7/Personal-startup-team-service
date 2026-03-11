@@ -3,14 +3,12 @@ package kr.spartaclub.startupteamservice.controller;
 
 import kr.spartaclub.startupteamservice.dto.request.CreateMemberRequest;
 import kr.spartaclub.startupteamservice.dto.response.CreateMemberResponse;
+import kr.spartaclub.startupteamservice.dto.response.GetMemberResponse;
 import kr.spartaclub.startupteamservice.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -31,5 +29,12 @@ public class MemberController {
 
         CreateMemberResponse response = memberService.saveMember(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @GetMapping("/{memberId}")
+    public ResponseEntity<GetMemberResponse> getMember(@PathVariable Long memberId) {
+
+        GetMemberResponse response = memberService.getOneMember(memberId);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

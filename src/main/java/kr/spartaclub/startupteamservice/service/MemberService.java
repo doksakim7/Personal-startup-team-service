@@ -3,6 +3,7 @@ package kr.spartaclub.startupteamservice.service;
 
 import kr.spartaclub.startupteamservice.dto.request.CreateMemberRequest;
 import kr.spartaclub.startupteamservice.dto.response.CreateMemberResponse;
+import kr.spartaclub.startupteamservice.dto.response.GetMemberResponse;
 import kr.spartaclub.startupteamservice.entity.Member;
 import kr.spartaclub.startupteamservice.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -40,6 +41,23 @@ public class MemberService {
         return new CreateMemberResponse(
                 savedMember.getMemberId(),
                 savedMember.getName()
+        );
+    }
+
+    @Transactional(readOnly = true)
+    public GetMemberResponse getOneMember(Long memberId) {
+
+        // 로그 남기기 (요구사항)
+        log.info("[API - LOG] 팀원 상세 조 요청 : {}", memberId);
+
+        Member member = memberRepository.findById(memberId).orElseThrow(
+                () -> new IllegalArgumentException("존재하지 않는 멤버입니다.")
+        );
+
+        return new GetMemberResponse(
+                member.getName(),
+                member.getAge(),
+                member.getMbti()
         );
     }
 }
