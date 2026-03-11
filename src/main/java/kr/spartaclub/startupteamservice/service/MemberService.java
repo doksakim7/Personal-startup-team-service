@@ -48,7 +48,7 @@ public class MemberService {
     public GetMemberResponse getOneMember(Long memberId) {
 
         // 로그 남기기 (요구사항)
-        log.info("[API - LOG] 팀원 상세 조 요청 : {}", memberId);
+        log.info("[API - LOG] 팀원 상세 조회 요청 : {}", memberId);
 
         Member member = memberRepository.findById(memberId).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 멤버입니다.")

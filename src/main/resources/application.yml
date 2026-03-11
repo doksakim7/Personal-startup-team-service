@@ -8,6 +8,12 @@ spring:
   profiles:
     active: local # 기본값 설정
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+
 #  # API 응답 시 JSON 날짜 형식을 깔끔하게 맞추기 위한 설정 (선택 사항)
 #  jackson:
 #    serialization:
