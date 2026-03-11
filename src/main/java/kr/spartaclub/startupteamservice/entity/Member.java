@@ -1,6 +1,11 @@
 package kr.spartaclub.startupteamservice.entity;
 
 
+import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 /**
  * Created by IntelliJ IDEA.
  * User: jeongjihun
@@ -8,5 +13,24 @@ package kr.spartaclub.startupteamservice.entity;
  * Time: 오후 2:04
  **/
 
+@Entity
+@Getter
+@Table(name = "members")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long memberId;
+
+    @Column(nullable = false)
+    private String name;
+    private Integer age;
+    private String mbti;
+
+    public Member(String name, Integer age, String mbti) {
+        this.name = name;
+        this.age = age;
+        this.mbti = mbti;
+    }
 }
