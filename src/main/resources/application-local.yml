@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb;MODE=MySQL # 메모리 모드로 실행
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  h2:
+    console:
+      enabled: true # 웹에서 DB를 확인할 수 있게 콘솔 활성화
+
+  jpa:
+    hibernate:
+      ddl-auto: create # 서버 켤 때마다 테이블 새로 생성
+    show-sql: true # 실행되는 쿼리를 로그로 출력
+    properties:
+      hibernate:
+        format_sql: true # 쿼리를 예쁘게 정렬해서 보여줌
+
+# 로깅 설정: 과제 요구사항 "[API - LOG] xx"를 위해 로그 레벨 지정
+logging:
+  level:
+    kr.spartaclub.startupteamservice: INFO # INFO 레벨로 설정
