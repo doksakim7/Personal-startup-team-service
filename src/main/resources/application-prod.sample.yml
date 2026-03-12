@@ -23,7 +23,8 @@ spring:
 #
 #info:
 #  app:
-#    message: "${team-name}"
+#    message: "${APP_MESSAGE}"
+#    team-name: "${team-name}"
 #
 #logging:
 #  level:
