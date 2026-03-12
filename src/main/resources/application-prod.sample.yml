@@ -6,3 +6,25 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate # 운영 환경에서는 데이터 보존을 위해 validate 권장
+
+
+# parameterstore 설정 값
+#spring:
+#  config:
+#    import: "aws-parameterstore:/startup-team-service/prod/"
+#
+#management:
+#  endpoint:
+#    health:
+#      show-details: never
+#  info:
+#    env:
+#      enabled: true
+#
+#info:
+#  app:
+#    message: "${team-name}"
+#
+#logging:
+#  level:
+#    root: INFO
