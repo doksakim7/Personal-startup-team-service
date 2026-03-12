@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * Created by IntelliJ IDEA.
@@ -24,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final S3Service s3Service;
 
     @Transactional
     public CreateMemberResponse saveMember(CreateMemberRequest request) {
@@ -59,5 +61,30 @@ public class MemberService {
                 member.getAge(),
                 member.getMbti()
         );
+    }
+
+    @Transactional
+    public String updateProfileImage(Long memberId, MultipartFile file) {
+        Member member = memberRepository.findById(memberId).orElseThrow(
+                () -> new IllegalArgumentException("존재하지 않는 멤버입니다.")
+        );
+
+        String key = s3Service.uploadProfileImage(file);
+        member.updateProfileImage(key);
+
+        return key;
+    }
+
+    public String getProfilePresignedUrl(Long memberId) {
+        Member member = memberRepository.findById(memberId).orElseThrow(
+                () -> new IllegalArgumentException("존재하지 않는 멤버입니다.")
+        );
+
+        if (member.getProfileImageKey() == null) {
+            return null; // 또는 기본 이미지 URL 반환
+        }
+
+        // 3. 7일짜리 Presigned URL 생성
+        return s3Service.getDownloadUrl(member.getProfileImageKey()).toString();
     }
 }

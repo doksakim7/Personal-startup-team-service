@@ -23,14 +23,14 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class S3Service {
 
-    private static final Duration PRESIGNED_URL_EXPIRATION = Duration.ofMinutes(10);
+    private static final Duration PRESIGNED_URL_EXPIRATION = Duration.ofDays(7);
 
     private final S3Template s3Template;
 
     @Value("${spring.cloud.aws.s3.bucket}")
     private String bucket;
 
-    public String upload(MultipartFile file) {
+    public String uploadProfileImage(MultipartFile file) {
         try {
             String key = "uploads/" + UUID.randomUUID() + "_" + file.getOriginalFilename();
             s3Template.upload(bucket, key, file.getInputStream());

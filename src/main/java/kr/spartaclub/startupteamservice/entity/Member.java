@@ -27,10 +27,16 @@ public class Member {
     private String name;
     private Integer age;
     private String mbti;
+    @Column
+    private String profileImageKey; // S3에 저장된 파일의 Key값
 
     public Member(String name, Integer age, String mbti) {
         this.name = name;
         this.age = age;
         this.mbti = mbti;
+    }
+
+    public void updateProfileImage(String key) {
+        this.profileImageKey = key;
     }
 }
