@@ -12,13 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-/**
- * Created by IntelliJ IDEA.
- * User: jeongjihun
- * Date: 26. 3. 11.
- * Time: 오후 2:28
- **/
-
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -28,10 +21,8 @@ public class MemberService {
     private final S3Service s3Service;
 
     @Transactional
-    public CreateMemberResponse saveMember(CreateMemberRequest request) {
-
-        // 로그 남기기 (요구사항)
-        log.info("[API - LOG] 새로운 팀원 등록 시도: {}", request.getName());
+    public CreateMemberResponse registerMember(CreateMemberRequest request) {
+        log.info("[API - LOG] 새로운 팀원 등록 시작: name = {}", request.getName());
 
         Member member = new Member(
                 request.getName(),
@@ -40,6 +31,8 @@ public class MemberService {
         );
 
         Member savedMember = memberRepository.save(member);
+
+        log.info("[API - LOG] 새로운 팀원 등록 완료: memberId = {}", savedMember.getMemberId());
         return new CreateMemberResponse(
                 savedMember.getMemberId(),
                 savedMember.getName()
@@ -47,14 +40,10 @@ public class MemberService {
     }
 
     @Transactional(readOnly = true)
-    public GetMemberResponse getOneMember(Long memberId) {
+    public GetMemberResponse getMember(Long memberId) {
+        log.info("[API - LOG] 팀원 상세 조회 요청 : memberId = {}", memberId);
 
-        // 로그 남기기 (요구사항)
-        log.info("[API - LOG] 팀원 상세 조회 요청 : {}", memberId);
-
-        Member member = memberRepository.findById(memberId).orElseThrow(
-                () -> new IllegalArgumentException("존재하지 않는 멤버입니다.")
-        );
+        Member member = findMemberById(memberId);
 
         return new GetMemberResponse(
                 member.getName(),
@@ -65,28 +54,37 @@ public class MemberService {
 
     @Transactional
     public String updateProfileImage(Long memberId, MultipartFile file) {
-        Member member = memberRepository.findById(memberId).orElseThrow(
-                () -> new IllegalArgumentException("존재하지 않는 멤버입니다.")
-        );
+        log.info("[API - LOG] 프로필 이미지 업데이트 시작 : memberId = {}", memberId);
 
-        String key = s3Service.upload(file);
-        member.updateProfileImage(key);
+        Member member = findMemberById(memberId);
 
-        // 로그로 저장 확인
-        log.info("[API - LOG] DB 저장 실행 완료: {}", key);
-        return key;
+        String profileImageKey = s3Service.upload(file);
+        member.updateProfileImage(profileImageKey);
+
+        log.info("[API - LOG] 프로필 이미지 업데이트 완료 : key = {}", profileImageKey);
+        return profileImageKey;
     }
 
     @Transactional(readOnly = true)
-    public String getProfilePresignedUrl(Long memberId) {
-        Member member = memberRepository.findById(memberId).orElseThrow(
-                () -> new IllegalArgumentException("존재하지 않는 멤버입니다.")
-        );
+    public String generateProfilePresignedUrl(Long memberId) {
+        log.info("[API - LOG] Presigned URL 생성 요청 : memberId = {}", memberId);
+
+        Member member = findMemberById(memberId);
 
         if (member.getProfileImageKey() == null) {
-            return null; // 또는 기본 이미지 URL 반환
+            log.warn("[API - LOG] 등록된 프로필 이미지가 없습니다: memberId = {}", memberId);
+            return null;
         }
 
-        return s3Service.getDownloadUrl(member.getProfileImageKey()).toString();
+        String presignedUrl = s3Service.generatePresignedUrl(member.getProfileImageKey()).toString();
+        log.info("[API - LOG] Presigned URL 생성 완료");
+        return presignedUrl;
+    }
+
+    private Member findMemberById(Long memberId) {
+        return memberRepository.findById(memberId).orElseThrow(() -> {
+            log.error("[API - LOG] 존재하지 않는 멤버 조회 시도: id = {}", memberId);
+            return new IllegalArgumentException("존재하지 않는 멤버입니다.");
+        });
     }
 }

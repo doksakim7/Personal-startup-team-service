@@ -6,13 +6,6 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-/**
- * Created by IntelliJ IDEA.
- * User: jeongjihun
- * Date: 26. 3. 11.
- * Time: 오후 2:04
- **/
-
 @Entity
 @Getter
 @Table(name = "members")
@@ -29,7 +22,7 @@ public class Member {
     private String mbti;
 
     @Column(name = "profile_image_key")
-    private String profileImageKey; // S3에 저장된 파일의 Key값
+    private String profileImageKey;
 
     public Member(String name, Integer age, String mbti) {
         this.name = name;

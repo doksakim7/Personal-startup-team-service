@@ -18,6 +18,11 @@ spring:
         auto: false
       s3:
         bucket: "startup-team-service-jhsparta3118-files"
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health, info"
 
 server:
   port: 8080

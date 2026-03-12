@@ -3,13 +3,6 @@ package kr.spartaclub.startupteamservice.dto.response;
 
 import lombok.Getter;
 
-/**
- * Created by IntelliJ IDEA.
- * User: jeongjihun
- * Date: 26. 3. 11.
- * Time: 오후 3:05
- **/
-
 @Getter
 public class CreateMemberResponse {
 
