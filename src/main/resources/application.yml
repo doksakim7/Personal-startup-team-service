@@ -1,6 +1,13 @@
 spring:
   application:
     name: startup-team-service
+  cloud:
+    aws:
+      region:
+        static: ap-northeast-2 # AWS Region
+  servlet:
+    multipart:
+      max-file-size: 10MB # 파일 업로드 크기 제한
 
   profiles:
     active: local # 기본값 설정

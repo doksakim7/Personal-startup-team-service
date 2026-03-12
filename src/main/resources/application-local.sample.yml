@@ -1,9 +1,10 @@
+# 로컬 H2 DB 설정
 spring:
   datasource:
     url: jdbc:h2:mem:testdb;MODE=MySQL;DB_CLOSE_DELAY=-1 # 메모리 모드로 실행
     driver-class-name: org.h2.Driver
-    username: sa
-    password:
+    username: {유저네임}
+    password: {비밀번호}
 
   jpa:
     hibernate:

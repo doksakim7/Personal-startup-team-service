@@ -41,3 +41,4 @@ out/
 
 # Spring Boot 설정 파일 보안
 /src/main/resources/application-prod.yml
+/src/main/resources/application-local.yml
