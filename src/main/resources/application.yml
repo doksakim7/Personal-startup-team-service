@@ -2,7 +2,7 @@ spring:
   application:
     name: startup-team-service
   profiles:
-    active: local # 기본 실행값은 로컬로 설정
+    active: local # 기본값
 
   servlet:
     multipart:
@@ -18,12 +18,6 @@ spring:
         auto: false
       s3:
         bucket: "startup-team-service-jhsparta3118-files"
-
-# JPA 및 서버 기본 설정
-spring.jpa:
-  hibernate:
-    ddl-auto: update
-  show-sql: true
 
 server:
   port: 8080

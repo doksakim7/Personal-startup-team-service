@@ -12,18 +12,15 @@ spring:
     show-sql: true # 실행되는 쿼리를 로그로 출력
     properties:
       hibernate:
-        format_sql: true # 쿼리를 예쁘게 정렬해서 보여줌
+        format_sql: true
+        dialect: org.hibernate.dialect.H2Dialect
 
   cloud:
     aws:
-      s3:
-        bucket: {S3버킷이름}
-
       credentials:
-        access-key: {access-key}
-        secret-key: {secret-key}
+        access-key: {"AKIA... 입력"}
+        secret-key: {"iXb... 입력"}
 
-# 로깅 설정: 과제 요구사항 "[API - LOG] xx"를 위해 로그 레벨 지정
 logging:
   level:
-    kr.spartaclub.startupteamservice: INFO # INFO 레벨로 설정
+    kr.spartaclub.startupteamservice: DEBUG # 로컬에선 상세히 보기 위해 DEBUG

@@ -1,12 +1,13 @@
 spring:
   config:
-    import: "aws-parameterstore:/startup-team-service/prod/" # parameterstore 설정 값
+    import: "aws-parameterstore:/startup-team-service/prod/"
 
-cloud:
-  aws:
-    s3:
-      bucket: {S3버킷이름} # bucket 설정 값
+  jpa:
+    hibernate:
+      ddl-auto: validate # 운영은 DB 구조가 맞는지 체크만 함
+    show-sql: false
 
+# 운영 환경 전용 모니터링 및 로깅 설정
 management:
   endpoint:
     health:
@@ -23,3 +24,4 @@ info:
 logging:
   level:
     root: INFO
+    kr.spartaclub.startupteamservice: INFO
