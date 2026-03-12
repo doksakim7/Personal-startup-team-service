@@ -1,16 +1,8 @@
 spring:
   datasource:
-    url: ${DB_URL} # 환경변수나 Parameter Store
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
-    driver-class-name: com.mysql.cj.jdbc.Driver
-
+    url: jdbc:mysql://{RDS엔드포인트}:3306/{데이터베이스명}
+    username: {유저네임}
+    password: {비밀번호}
   jpa:
     hibernate:
-      ddl-auto: update # 운영에선 데이터를 날리면 안 되니 update로 설정
-    show-sql: false # 운영에선 로그가 너무 많아지면 안 되니 끔
-
-# 운영 환경 로깅
-logging:
-  level:
-    root: INFO
+      ddl-auto: validate # 운영 환경에서는 데이터 보존을 위해 validate 권장

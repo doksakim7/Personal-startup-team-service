@@ -4,6 +4,12 @@ spring:
 
   profiles:
     active: local # 기본값 설정
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
 
 server:
   port: 8080
@@ -13,9 +19,3 @@ management:
     web:
       exposure:
         include: health, info
-
-#  # API 응답 시 JSON 날짜 형식을 깔끔하게 맞추기 위한 설정 (선택 사항)
-#  jackson:
-#    serialization:
-#      WRITE_DATES_AS_TIMESTAMPS: false
-#    time-zone: Asia/Seoul
