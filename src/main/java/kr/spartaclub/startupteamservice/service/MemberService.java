@@ -69,12 +69,15 @@ public class MemberService {
                 () -> new IllegalArgumentException("존재하지 않는 멤버입니다.")
         );
 
-        String key = s3Service.uploadProfileImage(file);
+        String key = s3Service.upload(file);
         member.updateProfileImage(key);
 
+        // 로그로 저장 확인
+        log.info("[API - LOG] DB 저장 실행 완료: {}", key);
         return key;
     }
 
+    @Transactional(readOnly = true)
     public String getProfilePresignedUrl(Long memberId) {
         Member member = memberRepository.findById(memberId).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 멤버입니다.")
@@ -84,7 +87,6 @@ public class MemberService {
             return null; // 또는 기본 이미지 URL 반환
         }
 
-        // 3. 7일짜리 Presigned URL 생성
         return s3Service.getDownloadUrl(member.getProfileImageKey()).toString();
     }
 }

@@ -1,28 +1,29 @@
 spring:
   application:
     name: startup-team-service
+  profiles:
+    active: local # 기본 실행값은 로컬로 설정
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+  # 공통 AWS 기본 설정
   cloud:
     aws:
       region:
-        static: ap-northeast-2 # AWS Region
-  servlet:
-    multipart:
-      max-file-size: 10MB # 파일 업로드 크기 제한
+        static: ap-northeast-2
+      stack:
+        auto: false
+      s3:
+        bucket: "startup-team-service-jhsparta3118-files"
 
-  profiles:
-    active: local # 기본값 설정
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-  jpa:
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQLDialect
+# JPA 및 서버 기본 설정
+spring.jpa:
+  hibernate:
+    ddl-auto: update
+  show-sql: true
 
 server:
   port: 8080
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health, info

@@ -2,6 +2,7 @@ package kr.spartaclub.startupteamservice.service;
 
 
 import io.awspring.cloud.s3.S3Template;
+import kr.spartaclub.startupteamservice.exception.FileUploadException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -30,14 +31,13 @@ public class S3Service {
     @Value("${spring.cloud.aws.s3.bucket}")
     private String bucket;
 
-    public String uploadProfileImage(MultipartFile file) {
+    public String upload(MultipartFile file) {
         try {
             String key = "uploads/" + UUID.randomUUID() + "_" + file.getOriginalFilename();
             s3Template.upload(bucket, key, file.getInputStream());
             return key;
         } catch (IOException e) {
-            // 적절한 커스텀 예외로 바꾸고, GlobalExceptionHandler로 핸들링 필요
-            throw new RuntimeException("파일 업로드 실패", e);
+            throw new FileUploadException("S3 파일 업로드 중 오류가 발생했습니다.", e);
         }
     }
 

@@ -27,7 +27,8 @@ public class Member {
     private String name;
     private Integer age;
     private String mbti;
-    @Column
+
+    @Column(name = "profile_image_key")
     private String profileImageKey; // S3에 저장된 파일의 Key값
 
     public Member(String name, Integer age, String mbti) {
