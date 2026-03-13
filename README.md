@@ -133,7 +133,7 @@ key: profileImageKey
 {
   "app": {
     "message": "Hello AWS!",
-    "team-name": "4조 화이팅!"
+    "team-name": "4랑의 불시착"
   }
 }
 ```
