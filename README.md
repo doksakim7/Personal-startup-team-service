@@ -2,11 +2,6 @@
 S3를 활용한 프로필 이미지 관리 및 팀원 정보를 관리하는 백엔드 서비스입니다.   
 AWS EC2 환경에 최적화되어 있으며, Spring Boot Actuator를 통해 서버 상태를 모니터링할 수 있습니다.
 
-## 🔗 Project Info
-- EC2 Public IP: http://3.35.20.88:8080
-- Actuator Info: http://3.35.20.88:8080/actuator/info
-
-
 # 1. 프로젝트 소개
 Spring Boot 애플리케이션을 AWS 환경(EC2, S3, RDS)에 배포하고, Stateless 아키텍처를 실습하기 위한 프로젝트입니다.  
 코드의 가독성과 유지보수성을 높이기 위한 계층형 아키텍처와 전역 예외 처리를 적용했습니다.
@@ -173,9 +168,12 @@ S3 파일 접근 보안을 위해 Presigned URL 방식을 사용했습니다.
 ----
 
 #  🛠️ Troubleshooting
-- Port 8080 Conflict: 이전에 종료되지 않은 프로세스가 8080 포트를 점유하여 서버 실행이 안 되었으나, lsof와 kill 명령어를 통해 프로세스를 정리하고 정상 실행함.
-- Actuator 404 Error: 기본 보안 설정으로 인해 /actuator/info가 닫혀 있었으나, application.yml 설정을 통해 노출 범위를 조정하여 해결함.
-- Parameter Store 권한 문제: EC2에서 AWS 리소스 접근 시 IAM Role 권한이 누락되어 서버 구동이 멈추는 현상을 발견하고 권한 부여를 통해 해결함.
+- **Port 8080 Conflict**: 이전에 종료되지 않은 프로세스가 8080 포트를 점유하여 서버 실행이 안 되었으나, `lsof`와 `kill` 명령어를 통해 프로세스를 정리하고 정상 실행함.
+- **Actuator 404 Error**: 기본 보안 설정으로 인해 `/actuator/info`가 닫혀 있었으나, `application.yml` 설정을 통해 노출 범위를 조정하여 해결함.
+- **Parameter Store 권한 문제**: EC2에서 AWS 리소스 접근 시 `IAM Role` 권한이 누락되어 서버 구동이 멈추는 현상을 발견하고 권한 부여를 통해 해결함.
+
+### velog - 자세한 Troubleshooting 기록
+https://velog.io/@jhsky3118/Troubleshooting-%ED%81%B4%EB%9D%BC%EC%9A%B0%EB%93%9C%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98-%EC%84%A4%EA%B3%84-%EB%B0%B0%ED%8F%AC-%EA%B3%BC%EC%A0%9C26.03.13
 
 ----
 
@@ -184,7 +182,7 @@ S3 파일 접근 보안을 위해 Presigned URL 방식을 사용했습니다.
 ![AWS Lv0.png](docs/AWS%20Lv0.png)
 
 ### LV 1 - 설정 완료된 EC2의 퍼블릭 IP
-3.35.20.88
+http://3.35.20.88:8080
 
 ### LV 2 - RDS & Parameter Store
 1. Actuator Info 엔드포인트 URL  
