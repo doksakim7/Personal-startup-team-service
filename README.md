@@ -25,6 +25,7 @@ Spring Boot 애플리케이션을 AWS 환경(EC2, S3, RDS)에 배포하고, Stat
 - Build Tool: Gradle
 
 # 4. 프로젝트 구조
+```
 src/main/java/kr/spartaclub/startupteamservice/  
 ├── controller/         # REST API 컨트롤러 (리소스 중심 설계)  
 ├── service/            # 비즈니스 로직 및 외부 서비스(S3) 연동  
@@ -32,6 +33,7 @@ src/main/java/kr/spartaclub/startupteamservice/
 ├── entity/             # JPA 엔티티 및 도메인 모델  
 ├── dto/                # Request/Response 객체 (계층 간 데이터 전송)  
 └── global/             # 전역 예외 처리(GlobalExceptionHandler) 및 공통 설정  
+```
 
 # 5. API 문서
 ## Base URL
@@ -75,7 +77,7 @@ http://3.35.20.88:8080
 ## Profile Image API
 ### POST /api/members/{memberId}/profile-image
 프로필 이미지를 S3에 업로드하고, 멤버 정보에 이미지 경로(`profileImageKey`)를 DB에 저장합니다.
-- **Status**: `201 Created`
+- **Status**: `201 Created` / `400 Bad Request` (멤버 ID가 존재하지 않는 경우)
 
 - **Request (multipart/form-data)**
 ```text
@@ -93,7 +95,7 @@ profileImage: hyunbin.png
 DB에 저장된 멤버의 `profileImageKey`를 기반으로, S3 접근이 가능한 Presigned URL을 생성하여 반환합니다.
 - **Status**: 
   - `200 OK`
-  - `400 Bad Request` (멤버 ID가 존재하지 않는 경우)
+  - `400 Bad Request` : 존재하지 않는 멤버 ID이거나 파일이 누락된 경우
   - `500 Internal Server Error`: S3 연결 실패 등 서버 내부적인 업로드 오류 발생 시 (`FileUploadException`)
 
 - **Request (Query Parameter)**  
@@ -151,6 +153,7 @@ key: profileImageKey
 데이터와 파일은 외부 서비스에 분리하여 서버 교체 및 확장이 가능하도록 설계했습니다.
 
 ### 아키텍처 다이어그램
+```text
            Client
               │
               ▼
@@ -158,7 +161,7 @@ key: profileImageKey
         │            │
         ▼            ▼
      RDS (MySQL)   S3 (Images)
-
+```
 
 ## 🔐 Presigned URL
 
