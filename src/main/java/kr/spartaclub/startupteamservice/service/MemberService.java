@@ -54,6 +54,12 @@ public class MemberService {
 
     @Transactional
     public String updateProfileImage(Long memberId, MultipartFile file) {
+
+        // 파일이 비어있는지 체크
+        if (file == null || file.isEmpty()) {
+            throw new IllegalArgumentException("업로드할 파일이 없습니다.");
+        }
+
         log.info("[API - LOG] 프로필 이미지 업데이트 시작 : memberId = {}", memberId);
 
         Member member = findMemberById(memberId);
@@ -81,6 +87,7 @@ public class MemberService {
         return presignedUrl;
     }
 
+    // 공통 예외 로직 분리
     private Member findMemberById(Long memberId) {
         return memberRepository.findById(memberId).orElseThrow(() -> {
             log.error("[API - LOG] 존재하지 않는 멤버 조회 시도: id = {}", memberId);
